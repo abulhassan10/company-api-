@@ -55,7 +55,7 @@ EmployeeResponse = employeeresponse
 # -------------------- User & Auth Schemas --------------------
 class Usercreate(BaseModel):
     username: str
-    email: EmailStr
+ 
     password: str
     
     
@@ -64,7 +64,7 @@ class Usercreate(BaseModel):
 class Userresponse(BaseModel):
     id: int
     username: str
-    email: EmailStr
+  
     
 
     class Config:
