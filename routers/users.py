@@ -62,7 +62,7 @@ def register_user(user_in: schema.Usercreate, db: Session = Depends(get_db)):
 # -------------------- OAuth2 Password Form Login (For Swagger UI Authorize button) --------------------
 @router.post(
     "/login/form",
-    response_model=schema.Token
+    response_model=schema.Tokenpython 
     
 )
 def login_form(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
