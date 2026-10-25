@@ -44,13 +44,13 @@ def get_current_user(token: str = Depends(oauth2_scheme),
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials")
 
-    user_id: int = payload.get("sub")
+    user_id = payload.get("sub")
     if user_id is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials")
 
-
+    user_id = int(user_id)
     user = db.query(model.User).filter(model.User.id == user_id).first()
 
     if user is None:
