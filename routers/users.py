@@ -62,28 +62,6 @@ def register_user(user_in: schema.Usercreate, db: Session = Depends(get_db)):
 
 
 # -------------------- Login with Username/Email & Password --------------------
-@router.post(
-    "/login",
-    response_model=schema.Token,
-    summary="Login with Username/Email and Password"
-)
-def login_with_password(credentials: schema.LoginPasswordRequest, db: Session = Depends(get_db)):
-    # Find user by username or email
-    user = db.query(model.User).filter(
-        or_(model.User.username == credentials.username, model.User.email == credentials.username)
-    ).first()
-
-    if not user or not utils.verify_password(credentials.password, user.password):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid username/email or password"
-        )
-
-    # Generate JWT token
-    token_data = {"user_id": user.id, "username": user.username}
-    access_token = auth.create_access_token(data=token_data)
-
-    return schema.Token(access_token=access_token, token_type="bearer")
 
 
 # -------------------- OAuth2 Password Form Login (For Swagger UI Authorize button) --------------------
