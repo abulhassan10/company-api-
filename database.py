@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, sessionmaker, declarative_base
 load_dotenv()  # Load environment variables from .env file
 
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("DATABASE_URL")  # Default to SQLite if not set
 engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(

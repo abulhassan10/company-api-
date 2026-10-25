@@ -26,21 +26,16 @@ router = APIRouter(
 )
 def register_user(user_in: schema.Usercreate, db: Session = Depends(get_db)):
     # Check if username or email already exists
-    existing_user = db.query(model.User).filter(
-        or_(model.User.username == user_in.username, model.User.email == user_in.email)
+    existing_user = db.query(model.User).filter (model.User.username == user_in.username
     ).first()
 
     if existing_user:
-        if existing_user.username == user_in.username:
+        
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Username already registered"
             )
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already registered"
-        )
-
+      
     
     
         
@@ -51,7 +46,7 @@ def register_user(user_in: schema.Usercreate, db: Session = Depends(get_db)):
     # Create new user
     new_user = model.User(
         username=user_in.username,
-        email=user_in.email,
+       
         password=hashed_password,
     )
     db.add(new_user)
@@ -67,12 +62,11 @@ def register_user(user_in: schema.Usercreate, db: Session = Depends(get_db)):
 # -------------------- OAuth2 Password Form Login (For Swagger UI Authorize button) --------------------
 @router.post(
     "/login/form",
-    response_model=schema.Token,
-    include_in_schema=False
+    response_model=schema.Token
+    
 )
 def login_form(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = db.query(model.User).filter(
-        or_(model.User.username == form_data.username, model.User.email == form_data.username)
+    user = db.query(model.User).filter (model.User.username == form_data.username, 
     ).first()
 
     if not user or not utils.verify_password(form_data.password, user.password):
